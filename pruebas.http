@@ -1,0 +1,101 @@
+### AlertaLote - peticiones de ejemplo
+### Ábrelas con la extensión REST Client de VS Code (o el cliente HTTP de IntelliJ)
+### y ejecútalas en orden la primera vez.
+
+@base = http://localhost:8080/api
+
+### 1. Crear un negocio
+POST {{base}}/negocios
+Content-Type: application/json
+
+{
+  "nombreTienda": "Minimercado La Esquina",
+  "telefonoWhatsapp": "300 123 4567"
+}
+
+### 2. Crear productos del negocio 1
+POST {{base}}/productos
+Content-Type: application/json
+
+{
+  "codigoBarras": "7702001000011",
+  "nombre": "Quesito Colanta 250 g",
+  "categoria": "Lácteos",
+  "idNegocio": 1
+}
+
+###
+POST {{base}}/productos
+Content-Type: application/json
+
+{
+  "codigoBarras": "7702001000028",
+  "nombre": "Pan tajado",
+  "categoria": "Panadería",
+  "idNegocio": 1
+}
+
+### 3. Registrar lotes (cambia las fechas para probar vencidos y próximos)
+POST {{base}}/lotes
+Content-Type: application/json
+
+{
+  "codigoBarras": "7702001000011",
+  "cantidad": 15,
+  "fechaVencimiento": "2026-11-12",
+  "ubicacion": "Nevera 2"
+}
+
+###
+POST {{base}}/lotes
+Content-Type: application/json
+
+{
+  "codigoBarras": "7702001000028",
+  "cantidad": 8,
+  "fechaVencimiento": "2026-11-05"
+}
+
+### 4. Consultas
+GET {{base}}/lotes?negocio=1
+
+###
+GET {{base}}/lotes/proximos-a-vencer?dias=7&negocio=1
+
+###
+GET {{base}}/lotes/vencidos?negocio=1
+
+###
+GET {{base}}/negocios/1/reporte?dias=7
+
+### 5. Vender o retirar unidades de un lote
+POST {{base}}/lotes/1/retiros
+Content-Type: application/json
+
+{
+  "cantidad": 3
+}
+
+### 6. Alertas: generar ahora, ver pendientes y armar el mensaje de WhatsApp
+POST {{base}}/alertas/generar
+
+###
+GET {{base}}/alertas?negocio=1
+
+###
+GET {{base}}/alertas/whatsapp/1
+
+###
+PATCH {{base}}/alertas/1/atendida
+
+### 7. Errores controlados (deben responder 400 y 404, no 500)
+POST {{base}}/lotes
+Content-Type: application/json
+
+{
+  "codigoBarras": "",
+  "cantidad": -5
+}
+
+###
+GET {{base}}/productos/no-existe

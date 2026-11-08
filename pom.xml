@@ -12,7 +12,7 @@
     <artifactId>AlertaLote</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>AlertaLote</name>
-    <description>AlertaLote</description>
+    <description>API REST para controlar lotes y alertar productos próximos a vencer en minimercados</description>
     <url/>
     <licenses>
         <license/>
@@ -37,6 +37,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <dependency>

@@ -1,0 +1,18 @@
+package com.example.alertalote.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.time.Clock;
+import java.time.ZoneId;
+
+/** Reloj de la aplicación. Inyectarlo (en vez de usar LocalDate.now()) permite probar con fechas fijas. */
+@Configuration
+public class TiempoConfig {
+
+    @Bean
+    public Clock reloj(@Value("${alertas.zona-horaria:America/Bogota}") String zona) {
+        return Clock.system(ZoneId.of(zona));
+    }
+}
